@@ -1,18 +1,17 @@
-def fibb_iterate(n):
-    if n < 2:
+def fibb_iterate(n) -> int:
+    if n <= 1:
         return n
     else:
-        a, b = 0, 1
+        num1, num2 = 0, 1
         for i in range(0, n):
-            result = a + b
-            a = b
-            b = result
-            print(result)
+            result = num1 + num2
+            num1 = num2
+            num2 = result
+            return num2
 
 
-def fibb_recursion(n):
-    if n < 2:
+def fibb_rec(n) -> int:
+    if n <= 1:
         return n
     else:
-        return fibb_recursion(n - 1) + fibb_recursion(n - 2)
-
+        return fibb_rec(n-1) + fibb_rec(n-2)
