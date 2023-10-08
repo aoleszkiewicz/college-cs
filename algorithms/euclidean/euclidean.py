@@ -19,6 +19,6 @@ def gcd_recurrence(m, n) -> int:
     return m
 
 
-# Least Common Multiple
+# Least Common Multiple using GCD
 def lcm(m, n) -> int:
     return int(m * n / gcd(m, n))

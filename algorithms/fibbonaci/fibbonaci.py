@@ -1,3 +1,4 @@
+# Fibbonaci sequence using iteration
 def fibb_iterate(n) -> int:
     if n <= 1:
         return n
@@ -10,6 +11,7 @@ def fibb_iterate(n) -> int:
             return num2
 
 
+# Fibbonaci sequence using recursion
 def fibb_rec(n) -> int:
     if n <= 1:
         return n
