@@ -3,21 +3,13 @@
 
 using namespace std;
 
-template <class T>
-struct Priority {
-    T value;
-    int priority;
-
-    Priority(T val, int prio) : value(val), priority(prio) { }
-};
-
 template <typename T>
 class Queue {
 protected:
     list<T> _elements;
 
 public:
-    virtual void enqueue(T element) {
+    void enqueue(T element) {
         _elements.push_back(element);
     }
 
@@ -52,27 +44,72 @@ public:
     }
 
     void printQueue() {
-        for (const T element: this->_elements) {
+        for (const T element: _elements) {
             cout << element << " ";
         }
-    };
+        cout << endl;
+    }
 };
 
 template <typename T>
-class PriorityQueue : public Queue<Priority<T>> {
-public:
-    void enqueue(T element) override {
+class PriorityQueue {
+protected:
+    list<pair<int, T>> _elements;
 
+public:
+    void enqueue(int priority, const T& value) {
+        auto iterator = _elements.begin();
+        while (iterator != _elements.end() && iterator->first <= priority) {
+            iterator++;
+        }
+        _elements.insert(iterator, make_pair(priority, value));
+    }
+
+    T dequeue() {
+        if (isEmpty()) {
+            cout << "Queue is empty" << endl;
+            return T();
+        }
+        T value = _elements.front().second;
+        _elements.pop_front();
+        return value;
+    }
+
+    bool isEmpty() const {
+        return _elements.empty();
+    }
+
+    void printQueue() const {
+        for (const auto element : _elements) {
+            cout << element.second << " ";
+        }
+        cout << endl;
     }
 };
 
 int main() {
-    PriorityQueue<int> queue;
+    Queue<int> queue;
     queue.enqueue(1);
     queue.enqueue(5);
     queue.enqueue(10);
 
     queue.printQueue();
-    
+
+    queue.dequeue();
+
+    queue.printQueue();
+
+    PriorityQueue<int> priorityQueue;
+    priorityQueue.enqueue(5, 1);
+    priorityQueue.enqueue(0, 2);
+    priorityQueue.enqueue(10, 10);
+    priorityQueue.enqueue(15, 5);
+
+    priorityQueue.printQueue();
+
+    priorityQueue.dequeue();
+
+    priorityQueue.printQueue();
+
     return 0;
 }
