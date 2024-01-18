@@ -5,7 +5,7 @@ using namespace std;
 
 template <typename T>
 class Queue {
-protected:
+private:
     list<T> _elements;
 
 public:
@@ -53,13 +53,13 @@ public:
 
 template <typename T>
 class PriorityQueue {
-protected:
+private:
     list<pair<int, T>> _elements;
 
 public:
-    void enqueue(int priority, const T& value) {
+    void enqueue(int priority, const T value) {
         auto iterator = _elements.begin();
-        while (iterator != _elements.end() && iterator->first <= priority) {
+        while (iterator != _elements.end() && iterator->first > priority) {
             iterator++;
         }
         _elements.insert(iterator, make_pair(priority, value));
@@ -80,7 +80,7 @@ public:
     }
 
     void printQueue() const {
-        for (const auto element : _elements) {
+        for (const pair<int, T> element : _elements) {
             cout << element.second << " ";
         }
         cout << endl;
