@@ -1,69 +1,77 @@
 #include <iostream>
+#include <string>
 
-struct Node {
-    int data;
-    Node* next;
+using namespace std;
 
-    Node(int data) : data(data), next(nullptr) {}
+class StackElem {
+public:
+    string value;
+    StackElem * next;
+
+    StackElem(string insertedVal): value(insertedVal), next(nullptr) {}
 };
 
 class Stack {
 private:
-    Node* top;
-
+    StackElem * _top;
 public:
-    Stack() : top(nullptr) {}
+    Stack(): _top(nullptr) {}
 
-    void push(int data) {
-        Node* newNode = new Node(data);
-        newNode->next = top;
-        top = newNode;
+    void push(string elem) {
+        StackElem * newElem = new StackElem(elem);
+        newElem -> next = _top;
+        _top = newElem;
     }
 
-    int pop() {
-        if (isEmpty()) {
-            std::cerr << "Stack Underflow" << std::endl;
-            exit(EXIT_FAILURE);
+    string pop() {
+        if (!_top) {
+            cout << "Stos jest pusty\n";
+            return "";
         }
-        Node* temp = top;
-        int popped = temp->data;
-        top = top->next;
+        string poppedValue = _top->value;
+        StackElem* temp = _top;
+        _top = _top->next;
         delete temp;
-        return popped;
+        return poppedValue;
     }
 
-    bool isEmpty() const {
-        return top == nullptr;
-    }
 
-    int peek() const {
-        if (isEmpty()) {
-            std::cerr << "Stack is empty" << std::endl;
-            exit(EXIT_FAILURE);
+    void display() {
+        StackElem * current = _top;
+        while (current) {
+            cout << current -> value << " ";
+            current = current -> next;
         }
-        return top->data;
-    }
-
-    ~Stack() {
-        while (!isEmpty()) {
-            pop();
-        }
+        cout << endl;
     }
 };
 
 int main() {
     Stack stack;
 
-    stack.push(1);
-    stack.push(2);
-    stack.push(3);
-
-    std::cout << "Top element is: " << stack.peek() << std::endl;
-
-    std::cout << "Elements: \n";
-    while (!stack.isEmpty()) {
-        std::cout << stack.pop() << std::endl;
+    bool loop = true;
+    char ans;
+    string elem;
+    while (loop) {
+        cout << "Podaj jedna z opcji, aby wykonac odpowiednia operacje\n" <<
+                  "d - dodanie do stosu\n" <<
+                  "u - usuniecie ze stosu\n" <<
+                  "w - wyswietlenie zawartosci\n" <<
+                  "x - aby zakonczyc\n";
+        cin >> ans;
+        if (ans == 'd') {
+            cout << "Podaj element, ktory ma zostac wprowadzony\n";
+            cin >> elem;
+            stack.push(elem);
+        } else if (ans == 'u') {
+            stack.pop();
+        } else if (ans == 'w') {
+            stack.display();
+        } else if (ans == 'x') {
+            loop = false;
+        } else {
+            cout << "Niepoprawna opcja\n";
+        }
     }
-
     return 0;
 }
